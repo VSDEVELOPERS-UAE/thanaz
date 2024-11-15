@@ -7,11 +7,25 @@
 <style>
         /* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Countdown Timer Styling */
+    .countdown-timer {
+        width: 100%;
+        background-color: #ffcccb;
+        text-align: center;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        display: none; /* Hidden by default */
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
 /* Navigation Styling */
 .navbar {
     display: flex;
@@ -176,7 +190,9 @@
 </style>
 </head>
 <body>
- 
+ <div class="countdown-timer" id="countdownTimer">
+    SSL certificate expire in <span id="timerDisplay"></span>
+</div>
     <!-- Navigation Bar -->
 <div class="navbar">
 <a href="#">Thanaz Document Clearing Co LLC</a>
@@ -246,5 +262,41 @@ Thanaz Document Clearance LLC specializes in guiding you through every step of t
     <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp Icon" width="30" height="30">
 </div><center>
 <a href="contact.html">Contact Us</a><br> <br> Developed and managed by <br><a href="https://vsdevelopers.store/"> vsdevelopers.com</a><br><br> Copyright 2024
+<br>
+
+<script>
+// Countdown timer functionality
+function updateCountdown() {
+    const targetDate = new Date("2024-11-23T00:00:00").getTime();
+    const now = new Date().getTime();
+    const timeDifference = targetDate - now;
+
+    // Calculate days, hours, minutes, seconds
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    document.getElementById("timerDisplay").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+    if (timeDifference <= 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("timerDisplay").innerText = "Countdown Complete!";
+    }
+}
+
+// Show the countdown timer for 10 seconds on page refresh
+window.onload = function() {
+    const countdownTimer = document.getElementById("countdownTimer");
+    countdownTimer.style.display = "block"; // Show the countdown timer
+    updateCountdown(); // Initial call
+    const countdownInterval = setInterval(updateCountdown, 1000); // Update every second
+
+    setTimeout(() => {
+        countdownTimer.style.display = "none"; // Hide after 10 seconds
+        clearInterval(countdownInterval); // Stop updating the countdown
+    }, 10000); // 10 seconds
+};
+</script>
 </body>
 </html>
